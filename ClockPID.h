@@ -33,6 +33,8 @@ class ClockPID_c {
     float d_out() { return last_out_d; };
     float out() { return last_out; };
 
+    void reset_clock() { count = 0; }
+
   private:
     int32_t timestamps[NTPPID_MAX_COUNT]; // in milliseconds
     int32_t raw_offsets[NTPPID_MAX_COUNT]; // in milliseconds, not corrected

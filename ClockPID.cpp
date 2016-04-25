@@ -15,12 +15,29 @@ float ClockPID_c::average(int32_t *points) {
   return sum / count;
 }
 
-static int float_compare(const void *e1, const void *e2) {
-  float f1 = *(float*)e1;
-  float f2 = *(float*)e2;
-  if(f1 > f2) return 1;
-  if(f1 < f2) return -1;
-  return 0;
+static void swap_float(float v[], int i1, int i2) {
+  float tmp;
+
+  tmp = v[i1];
+  v[i1] = v[i2];
+  v[i2] = tmp;
+}
+
+static void qsort_float(float v[], int left, int right) {
+  int last;
+
+  if (left >= right)
+    return;
+
+  swap_float(v, left, (left + right)/2);
+
+  last = left;
+  for (int i = left+1; i <= right; i++)
+    if (v[i] < v[left])
+      swap_float(v, ++last, i);
+  swap_float(v, left, last);
+  qsort_float(v, left, last-1);
+  qsort_float(v, last+1, right);
 }
 
 struct linear_result ClockPID_c::theil_sen(float avg_ts, float avg_out) {
@@ -40,7 +57,7 @@ struct linear_result ClockPID_c::theil_sen(float avg_ts, float avg_out) {
     r.a = 0;
     r.b = avg_out;
   } else {
-    qsort(slopes, slopes_count, sizeof(float), float_compare);
+    qsort_float(slopes, 0, slopes_count);
     median_slope_idx = lround(slopes_count / 2);
     r.a = slopes[median_slope_idx];
     r.b = avg_out - r.a*avg_ts;
@@ -104,7 +121,7 @@ void ClockPID_c::make_room() {
   count--;
 }
 
-// TODO: deal with timestamp wraps
+// warning: handle timestamp wraps in the upper layer by calling reset_clock
 float ClockPID_c::add_sample(int32_t timestamp, int32_t raw_offset, int32_t corrected_offset) {
   last_p = corrected_offset / 1000.0;
  
