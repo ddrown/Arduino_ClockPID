@@ -1,0 +1,2 @@
+ClockPID KEYWORD2
+add_sample KEYWORD2

@@ -1,0 +1,19 @@
+{
+"name": "ClockPID",
+"frameworks": "Arduino",
+"keywords": "Clock, PID, NTP, ppm",
+"description": "Clock Rate adjustments based on offset measurements",
+"url": "https://github.com/ddrown/Arduino_ClockPID",
+"authors":
+[
+{
+        "name": "Daniel Drown"
+}
+],
+"repository":
+{
+    "type": "git",
+    "url": "https://github.com/ddrown/Arduino_ClockPID.git"
+}
+}
+
