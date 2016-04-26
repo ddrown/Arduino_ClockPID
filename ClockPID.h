@@ -7,7 +7,7 @@
 #define NTPPID_KI 0.0001
 #define NTPPID_KD 1.0
 
-#define NTPPID_MAX_COUNT 10
+#define NTPPID_MAX_COUNT 16
 
 extern "C" {
   struct deriv_calc {
@@ -33,7 +33,7 @@ class ClockPID_c {
     float d_out() { return last_out_d; };
     float out() { return last_out; };
 
-    void reset_clock() { count = 0; }
+    void reset_clock() { count = 0; } // TODO: change all timestamps to negative instead of throwing them away
 
   private:
     int32_t timestamps[NTPPID_MAX_COUNT]; // in milliseconds
