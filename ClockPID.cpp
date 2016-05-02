@@ -71,7 +71,7 @@ float ClockPID_c::chisq(struct linear_result lin) {
 
   for(uint32_t i = 0; i < count; i++) {
     float expected = timestamps[i]/1000.0*lin.a + lin.b/1000.0;
-    chisq_r += pow((raw_offsets[i]/1000.0 - expected), 2) / expected;
+    chisq_r += pow((raw_offsets[i]/1000.0 - expected), 2);
   }
 
   return chisq_r;
